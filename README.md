@@ -56,3 +56,26 @@
    git clone https://github.com/your-username/melodymix.git
    cd melodymix
    ```
+# Frontend Setup
+
+1. Install dependencies for client:
+   ```bash
+   cd client
+   npm install
+   ```
+2. Start the frontend
+   ```bash
+   npx expo start
+   ```
+
+# Backend Setup
+
+1. Install dependencies for server:
+   ```bash
+   cd server
+   npm install
+   ```
+2. Start the backend
+   ```bash
+   npm run dev
+   ```
