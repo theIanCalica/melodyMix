@@ -6,19 +6,10 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
-    first_name: {
+    name: {
       type: String,
-      required: [true, "First name is required."],
+      required: [true, "Name is required."],
       trim: true,
-    },
-    last_name: {
-      type: String,
-      required: [true, "Last Name is required"],
-      trim: true,
-    },
-    date_of_birth: {
-      type: Date,
-      // required: [true, "Date of Birth is required"],
     },
     email: {
       type: String,
@@ -44,13 +35,6 @@ const UserSchema = new Schema(
       required: [true, "Role is required"],
       default: "customer",
       enum: ["customer", "admin", "artist"],
-    },
-    status: {
-      type: String,
-      required: [true, "Status is required"],
-      trim: true,
-      enum: ["activated", "deactivated", "unverified"],
-      default: "unverified",
     },
     socialAccounts: [SocialAccountSchema],
     fcm_token: {

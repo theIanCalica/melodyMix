@@ -1,4 +1,3 @@
-// Import the user model
 const User = require("../models/user.model");
 
 // Get all users

@@ -76,6 +76,44 @@ exports.createContact = async (req, res, next) => {
   }
 };
 
+// Update a contact
+exports.updateContact = async (req, res, next) => {
+  try {
+    const { status } = req.body;
+    const { contactId } = req.params;
+
+    // Check if the status and contactId is given
+    if (!status || !contactId) {
+      const error = new Error("All fields are required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    // Find the contact and update the status
+    const updatedContact = await Contact.findByIdAndUpdate(
+      contactId,
+      { status },
+      { new: true }
+    );
+
+    // If no contact is found, return an error
+    if (!updatedContact) {
+      const error = new Error("Contact not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Contact status updated",
+      contact: updatedContact,
+      success: true,
+    });
+  } catch (error) {
+    console.log("Error creating a contact", error.message);
+    next(error);
+  }
+};
+
 // Delete a contact
 exports.deleteContact = async (req, res, next) => {
   try {
