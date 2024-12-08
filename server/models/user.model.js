@@ -16,18 +16,26 @@ const UserSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    phone_number: {
+    dob: {
+      type: Date,
+    },
+    gender: {
+      type: String,
+      enum: ["Man", "Woman", "Prefer not to say"],
+    },
+    phoneNumber: {
       type: String,
       unique: true,
     },
     profile_picture: {
       public_id: {
         type: String,
-        required: true,
+        default: "cihdkwnga1whsejrbmkb",
       },
       url: {
         type: String,
-        required: true,
+        default:
+          "https://res.cloudinary.com/dydg4oqy5/image/upload/v1733662639/cihdkwnga1whsejrbmkb.png",
       },
     },
     role: {

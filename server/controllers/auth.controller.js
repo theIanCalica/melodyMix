@@ -1,5 +1,23 @@
 const User = require("../models/user.model");
 
+// Register
+exports.register = async (req, res, next) => {
+  try {
+    const { name, email, dob, gender, phoneNumber } = req.body;
+
+    if ((!name || !email, !dob, !gender, !phoneNumber)) {
+      const error = new Error("All fields are required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const newUser = new User({ name, email, dob, gender, phoneNumber });
+  } catch (error) {
+    console.log("Error registeration", error.message);
+    next(error);
+  }
+};
+
 // Username and password Login
 exports.login = async (req, res, next) => {
   try {
@@ -32,15 +50,6 @@ exports.logout = async (req, res, next) => {
   try {
   } catch (error) {
     console.log("Error logout", error.message);
-    next(error);
-  }
-};
-
-// Register
-exports.register = async (req, res, next) => {
-  try {
-  } catch (error) {
-    console.log("Error registeration", error.message);
     next(error);
   }
 };
