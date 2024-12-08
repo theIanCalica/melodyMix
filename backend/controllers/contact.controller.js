@@ -24,8 +24,82 @@ exports.getAllContacts = async (req, res) => {
   }
 };
 
-// Add a contact
-exports.createContact = async (req, res) => {
+// Get single contact by ID
+exports.getSingleContact = async (req, res, next) => {
   try {
-  } catch (error) {}
+    const contactId = req.params.contactId;
+
+    if (!contactId) {
+      const error = new Error("Id is required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const contact = Contact.findById(contactId);
+
+    // respond with the retrieved contact
+    res.status(200).json({
+      success: true,
+      message: "Contact retrieved successfully",
+      data: contact,
+    });
+  } catch (error) {
+    console.log("Error fetching  user", error.message);
+    next(error);
+  }
+};
+
+// Add a contact
+exports.createContact = async (req, res, next) => {
+  try {
+    const { name, email, phone, subject, body } = req.body;
+
+    // Validate values
+    if (!name || !email || !phone || !subject || !body) {
+      const error = new Error("All fields are required");
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const newContact = new Contact({ name, email, phone, subject, body });
+    const saveContact = await newContact.save();
+
+    // respond with success messsage
+    res.status(201).json({
+      success: true,
+      message: "Sent Successfully",
+      data: saveContact,
+    });
+  } catch (error) {
+    console.log("Error creating a contact", error.message);
+    next(error);
+  }
+};
+
+// Delete a contact
+exports.deleteContact = async (req, res, next) => {
+  try {
+    const contactId = req.params.contactId;
+
+    if (!contactId) {
+      const error = new Error("Id is required");
+      error.statusCode = 400;
+      throw error;
+    }
+    const contact = await Contact.findByIdAndDelete(contactId);
+
+    if (!contact) {
+      const error = new Error("Contact not found");
+      error.statusCode = 400;
+      throw error;
+    }
+    // respond with success delete message
+    res.status(200).json({
+      success: true,
+      message: "Contact deleted successfully",
+    });
+  } catch (error) {
+    console.log("Error deleting a contact", error.message);
+    next(error);
+  }
 };
