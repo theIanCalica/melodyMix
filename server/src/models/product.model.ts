@@ -1,8 +1,13 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema, model } from "mongoose";
+import { IProduct } from "../types/product";
 
 const ProductSchema = new Schema(
   {
+    artistId: {
+      type: Schema.Types.ObjectId,
+      ref: "Artist",
+      required: true,
+    },
     name: {
       type: String,
       required: [true, "Name is required"],
@@ -57,5 +62,5 @@ const ProductSchema = new Schema(
   { collection: "products", timestamps: true }
 );
 
-const Product = mongoose.model("Product", ProductSchema);
-module.exports = Product;
+const Product = model<IProduct>("Product", ProductSchema);
+export default Product;

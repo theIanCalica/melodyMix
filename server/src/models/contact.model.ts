@@ -1,16 +1,5 @@
 import { Schema, model, Document } from "mongoose";
-
-// Define the TypeScript interface for the Contact document
-export interface IContact extends Document {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  body: string;
-  status: "pending" | "in-progress" | "resolved";
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+import { IContact } from "../types/contact";
 
 // Define the schema
 const ContactSchema = new Schema<IContact>(

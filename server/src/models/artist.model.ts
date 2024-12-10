@@ -1,17 +1,6 @@
-import { Schema, model, Document } from "mongoose";
-
+import { Schema, model } from "mongoose";
+import { IArtist } from "../types/artist";
 import jwt from "jsonwebtoken";
-
-export interface IArtist extends Document {
-  name: string;
-  email: string;
-  phoneNumber: string;
-  profile_picture: {
-    public_id: string;
-    url: string;
-  };
-  getJwtToken: () => string;
-}
 
 const ArtistSchema = new Schema(
   {
