@@ -1,8 +1,6 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const SocialAccountSchema = require("./socialAccount.model");
-const Schema = mongoose.Schema;
+import { Schema, model, Document } from "mongoose";
+import { IUser } from "../types/user";
+import jwt from "jsonwebtoken";
 
 const UserSchema = new Schema(
   {
@@ -15,6 +13,7 @@ const UserSchema = new Schema(
       type: String,
       required: [true, "Email is required"],
       unique: true,
+      trim: true,
     },
     dob: {
       type: Date,
@@ -22,20 +21,24 @@ const UserSchema = new Schema(
     gender: {
       type: String,
       enum: ["Man", "Woman", "Prefer not to say"],
+      trim: true,
     },
     phoneNumber: {
       type: String,
       unique: true,
+      trim: true,
     },
     profile_picture: {
       public_id: {
         type: String,
         default: "cihdkwnga1whsejrbmkb",
+        trim: true,
       },
       url: {
         type: String,
         default:
           "https://res.cloudinary.com/dydg4oqy5/image/upload/v1733662639/cihdkwnga1whsejrbmkb.png",
+        trim: true,
       },
     },
     role: {
@@ -43,11 +46,25 @@ const UserSchema = new Schema(
       required: [true, "Role is required"],
       default: "customer",
       enum: ["customer", "admin", "artist"],
+      trim: true,
     },
-    socialAccounts: [SocialAccountSchema],
+    socialAccounts: [
+      {
+        provider: {
+          type: String,
+          enum: ["google", "facebook"],
+          required: true,
+        },
+        provider_id: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     fcm_token: {
       type: String,
       default: null,
+      trim: true,
     },
   },
   {
@@ -57,10 +74,10 @@ const UserSchema = new Schema(
 );
 
 UserSchema.methods.getJwtToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_TIME,
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET as string, {
+    expiresIn: process.env.JWT_EXPIRES_TIME as string,
   });
 };
 
-const User = mongoose.model("User", UserSchema);
-module.exports = User;
+const User = model<IUser>("User", UserSchema);
+export default User;

@@ -8,6 +8,16 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
+  "authors": [
+    {
+      "name": "Ian Gabriel G. Calica",
+      "email": "ian.calica@example.com"
+    },
+    {
+      "name": "Mark Ranier Maestre",
+      "email": "mark.maestre@example.com"
+    }
+  ],
   "dependencies": {
     "expo": "~52.0.17",
     "expo-status-bar": "~2.0.0",

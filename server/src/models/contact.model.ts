@@ -1,7 +1,19 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import { Schema, model, Document } from "mongoose";
 
-const ContactSchema = new Schema(
+// Define the TypeScript interface for the Contact document
+export interface IContact extends Document {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  body: string;
+  status: "pending" | "in-progress" | "resolved";
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+// Define the schema
+const ContactSchema = new Schema<IContact>(
   {
     name: {
       type: String,
@@ -44,13 +56,15 @@ const ContactSchema = new Schema(
     },
   },
   {
-    timestamps: true,
+    timestamps: true, // Automatically adds `createdAt` and `updatedAt`
     collection: "contacts",
   }
 );
 
+// Add an index for the email field
 ContactSchema.index({ email: 1 });
 
-const Contact = mongoose.model("Contact", ContactSchema);
+// Create and export the model
+const Contact = model<IContact>("Contact", ContactSchema);
 
-module.exports = Contact;
+export default Contact;

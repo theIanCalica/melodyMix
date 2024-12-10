@@ -1,15 +1,14 @@
-const request = require("supertest");
-const app = require("../server");
-const mongoose = require("mongoose");
-const MONGODB_URL = process.env.MONG_URL;
-let contactId;
+import request from "supertest";
+import app from "../server";
+import mongoose, { ConnectOptions } from "mongoose";
+
+// Assuming process.env.MONG_URL is correctly set up in .env
+const MONGODB_URL = process.env.MONG_URL as string;
+let contactId: string;
 
 // Before all tests run, connect to MongoDB
 beforeAll(async () => {
-  await mongoose.connect(MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(MONGODB_URL);
 });
 
 // After all tests finish, disconnect from MongoDB
@@ -17,7 +16,7 @@ afterAll(async () => {
   await mongoose.disconnect();
 });
 
-// Test the contact crud
+// Test the contact CRUD
 describe("Contact Routes", () => {
   it("should retrieve all contacts", async () => {
     const response = await request(app).get("/api/v1/contacts");
