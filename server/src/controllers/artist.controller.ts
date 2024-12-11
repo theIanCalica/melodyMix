@@ -1,8 +1,8 @@
-import Artist from "../models/artist.model";
 import { Request, Response, NextFunction } from "express";
+import Artist from "../models/artist.model";
 
 // Get all artists
-exports.getAllArtist = async (
+export const getAllArtist = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -19,6 +19,45 @@ exports.getAllArtist = async (
     next({
       statusCode: 500,
       message: "An error occurred while retrieving artists",
+      error: (error as Error).message,
+    });
+  }
+};
+
+
+export const createArtist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { name, email, phoneNumber } = req.body;
+
+ 
+    const profile_picture = {
+      public_id: "cihdkwnga1whsejrbmkb",
+      url: "https://res.cloudinary.com/dydg4oqy5/image/upload/v1733662639/cihdkwnga1whsejrbmkb.png",
+    };
+
+    const newArtist = new Artist({
+      name,
+      email,
+      phoneNumber,
+      profile_picture,
+    });
+
+    await newArtist.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Artist successfully registered!",
+      data: newArtist,
+    });
+  } catch (error) {
+    console.error("Error creating artist", error);
+    next({
+      statusCode: 500,
+      message: "An error occurred while creating the artist.",
       error: (error as Error).message,
     });
   }

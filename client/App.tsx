@@ -1,32 +1,32 @@
-import { Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import "./index.css";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "./components/Home";
+import ArtistSignup from "./components/Artists/Signup";
+import UserSignup from "./components/Users/Signup";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View className="flex-1 items-center justify-center bg-backgroundColor ">
-      <Text className="text-white text-4xl">Millions of Songs</Text>
-      <Text className="text-white text-4xl mb-10">Free in MeloxyMix</Text>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+     
+        <Stack.Screen name="Home" component={Home} options={{ title: "Home" }} />
 
-      {/* Sign Up Button */}
-      <TouchableOpacity className="w-full py-5 border-2 bg-primaryColor rounded-full  mb-4">
-        <Text className=" text-center text-lg text-white">Sign Up free</Text>
-      </TouchableOpacity>
+    
+        <Stack.Screen
+          name="UserSignup"
+          component={UserSignup}
+          options={{ title: "User Signup" }}
+        />
 
-      {/* Google Button */}
-      <TouchableOpacity className="w-full py-5 border-2 border-white rounded-full mb-4">
-        <Text className="text-white text-center text-lg">
-          Continue with Google
-        </Text>
-      </TouchableOpacity>
-
-      {/* Facebook Button */}
-      <TouchableOpacity className="w-full py-5 px-5 border-2 border-white rounded-full mb-8">
-        <Text className="text-white text-center text-lg">
-          Login with Facebook
-        </Text>
-      </TouchableOpacity>
-      <Text className="text-white text-2xl">Log in</Text>
-    </View>
+        <Stack.Screen
+          name="ArtistSignup"
+          component={ArtistSignup}
+          options={{ title: "Artist Signup" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

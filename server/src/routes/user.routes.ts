@@ -4,5 +4,6 @@ const UserController = require("../controllers/user.controller");
 
 // Get all users
 router.get("/", UserController.getAllUsers);
+router.post("/signup", UserController.signup);
 
 export default router;

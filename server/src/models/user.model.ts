@@ -45,7 +45,7 @@ const UserSchema = new Schema(
       type: String,
       required: [true, "Role is required"],
       default: "customer",
-      enum: ["customer", "admin", "artist"],
+      enum: ["customer", "admin"],
       trim: true,
     },
     socialAccounts: [

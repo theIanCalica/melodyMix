@@ -1,3 +1,4 @@
+/*
 import User from "../models/user.model";
 import { Request, Response, NextFunction } from "express";
 
@@ -62,3 +63,4 @@ exports.logout = async (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+*/

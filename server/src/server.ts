@@ -7,7 +7,8 @@ import bodyParser from "body-parser";
 
 // Import routes and middleware
 import contactRoutes from "./routes/contact.routes";
-// import userRoutes from "./routes/user.routes";
+import userRoutes from "./routes/user.routes"; 
+import artistRoutes from "./routes/artist.routes";
 import errorHandler from "./middleware/error.middleware";
 
 // Load environment variables
@@ -15,7 +16,7 @@ dotenv.config();
 
 // Cors configurations
 const corsOptions: CorsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "http://localhost:8081"], 
   credentials: true,
 };
 
@@ -29,7 +30,8 @@ app.use(express.json());
 
 // Routes
 app.use("/api/v1/contacts", contactRoutes);
-// app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/users", userRoutes); 
+app.use("/api/v1/artists", artistRoutes);
 
 // Initialize global error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -37,7 +39,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 // MongoDB Connection and Server Initialization
-const mongoUrl = process.env.MONG_URL as string;
+const mongoUrl = process.env.MONGO_URI as string;  
 const port: number = parseInt(process.env.PORT || "5000", 10);
 
 mongoose
@@ -56,4 +58,5 @@ mongoose
 app.get("/", (req: Request, res: Response) => {
   res.send("Server is running!");
 });
+
 export default app;
